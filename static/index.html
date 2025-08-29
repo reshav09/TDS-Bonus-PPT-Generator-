@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Text → PowerPoint</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-2xl mx-auto bg-white shadow-xl rounded-2xl p-6">
+    <h1 class="text-2xl font-bold mb-4">Convert Text/Markdown → PowerPoint</h1>
+    <form id="pptxForm" class="space-y-4">
+      <textarea name="text" rows="8" class="w-full p-2 border rounded" placeholder="# Title\n## Slide 1\n- Point A\n- Point B"></textarea>
+      <div>
+        <label class="block mb-1">Mode</label>
+        <select name="mode" class="w-full border p-2 rounded">
+          <option value="markdown">Markdown</option>
+          <option value="text">Plain Text</option>
+          <option value="auto">Auto</option>
+        </select>
+      </div>
+      <div>
+        <label class="block mb-1">File name</label>
+        <input type="text" name="filename" value="presentation" class="w-full border p-2 rounded">
+      </div>
+      <div>
+        <label class="block mb-1">Template (.pptx/.potx)</label>
+        <input type="file" name="template" class="w-full">
+      </div>
+      <button class="bg-blue-600 text-white px-4 py-2 rounded">Generate .pptx</button>
+    </form>
+  </div>
+  <script>
+    document.getElementById('pptxForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const resp = await fetch('/generate', { method: 'POST', body: formData });
+      if (resp.ok) {
+        const blob = await resp.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = formData.get('filename') + ".pptx";
+        a.click();
+      } else {
+        alert("Error generating PowerPoint");
+      }
+    });
+  </script>
+</body>
+</html>
