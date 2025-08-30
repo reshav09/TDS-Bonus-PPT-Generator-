@@ -1,11 +1,8 @@
----
-
 # 🪄 Text/Markdown → PowerPoint Web App
 
 **Your Text, Your Style**
 Turn long-form text, markdown, or prose into a fully styled PowerPoint presentation — powered by your favorite LLM and your own branded `.pptx/.potx` templates.
 
----
 
 ## 📌 Overview
 
